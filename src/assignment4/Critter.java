@@ -199,6 +199,15 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		for(int i = 0; i < aliveCritters.size(); i++)
+		{
+			aliveCritters.get(i).doTimeStep();
+			if(aliveCritters.get(i).energy <= 0)
+			{
+				aliveCritters.remove(i);
+				i--;
+			}
+		}
 	}
 	
 	public static void displayWorld() {
@@ -218,7 +227,7 @@ public abstract class Critter {
 				{
 					if(aliveCritters.get(k).y_coord == i && aliveCritters.get(k).x_coord == j)
 					{
-						System.out.println(aliveCritters.get(k).toString());
+						System.out.print(aliveCritters.get(k).toString());
 						printFlag = 1;
 						k = aliveCritters.size(); // breaks out of this one for-loop
 					}
