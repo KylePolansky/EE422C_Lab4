@@ -69,10 +69,90 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
-        System.out.println("GLHF");
+        readInput();
         
         /* Write your code above */
         System.out.flush();
 
+    }
+
+    /**
+     * Loop that reads input from kb and processes the input commands
+     */
+    private static void readInput() {
+        while (true) {
+            System.out.print("critters>");
+            String input = kb.nextLine();
+            String[] inputSplit = input.split("\\s");
+            try {
+                switch (inputSplit[0]) {
+                    case "quit":
+                        if (checkInputLength(input,1)) {
+                            System.exit(0);
+                        }
+                    case "show":
+                        if (checkInputLength(input,1)) {
+                            Critter.displayWorld();
+                        }
+                    case "step":
+                        if (checkInputLength(input,1,2)) {
+                            int numSteps = 1;
+                            if (inputSplit.length == 2) {
+                                numSteps = Integer.parseInt(inputSplit[1]);
+                            }
+                            //TODO: Move <numSteps> steps
+                        }
+                    case "seed":
+                        if (checkInputLength(input,2)) {
+                            //TODO: Implement seed
+                        }
+                    case "make":
+                        if (checkInputLength(input,2,3)) {
+                            //TODO: Implement make
+                        }
+                    case "stats":
+                        if (checkInputLength(input,2)) {
+                            //TODO: Implement stats
+                        }
+                    default:
+                        printInvalidOutput(input);
+                }
+            } catch (Exception e) {
+                System.out.println("error processing: " + input);
+            }
+        }
+    }
+
+    /**
+     * Check the input length (number of parameters)
+     * @param command the command to check
+     * @param terms the number of terms, including the command keyword
+     * @return true if the input length is valid, false and print an error message if it is not valid
+     */
+    private static boolean checkInputLength(String command, int terms) {
+        return checkInputLength(command, terms, terms);
+    }
+
+    /**
+     * Check the input length (number of parameters)
+     * @param command the command to check
+     * @param terms the number of terms, including the command keyword
+     * @param optionalTerms If a command has 2 forms (ex. optional parameters), the 2nd number of parameters
+     * @return true if the input length is valid, false and print an error message if it is not valid
+     */
+    private static boolean checkInputLength(String command, int terms, int optionalTerms) {
+        if (command.split("\\s").length == terms || command.split("\\s").length == optionalTerms) {
+            return true;
+        }
+        printInvalidOutput(command);
+        return false;
+    }
+
+    /**
+     * Print invalid command
+     * @param command the command that is invalid
+     */
+    private static void printInvalidOutput(String command) {
+        System.out.println("invalid command: " + command);
     }
 }
