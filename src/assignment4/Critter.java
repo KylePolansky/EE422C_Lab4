@@ -202,6 +202,7 @@ public abstract class Critter {
 		for(int i = 0; i < aliveCritters.size(); i++)
 		{
 			aliveCritters.get(i).doTimeStep();
+			aliveCritters.get(i).energy -= Params.rest_energy_cost;
 			if(aliveCritters.get(i).energy <= 0)
 			{
 				aliveCritters.remove(i);
