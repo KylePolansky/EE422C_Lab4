@@ -70,10 +70,38 @@ public abstract class Critter {
 	 * (Java weirdness: Exception throwing does not work properly if the parameter has lower-case instead of
 	 * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
 	 * an Exception.)
-	 * @param critter_class_name
+	 * @param critter_class_name must be the fully qualified name
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+
+		try {
+			//Create new critter using reflection
+			Class cls = Class.forName(critter_class_name);
+			Object o = cls.getConstructor().newInstance();
+			Critter c = (Critter) o;
+
+			//Set default values
+			int xPos = getRandomInt(Params.world_width - 1);
+			int yPos = getRandomInt(Params.world_height - 1);
+			int initEnergy = Params.start_energy;
+
+			c.x_coord = xPos;
+			c.y_coord = yPos;
+			c.energy = initEnergy;
+
+			//Add to arrary
+			aliveCritters.add(c);
+
+		}
+		catch (java.lang.NoClassDefFoundError e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		catch (Exception e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+
+
 	}
 	
 	/**

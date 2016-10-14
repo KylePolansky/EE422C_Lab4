@@ -117,7 +117,7 @@ public class Main {
                                 numCritters = Integer.parseInt(inputSplit[2]);
                             }
                             for (int i = 0; i < numCritters; i++) {
-                                Critter.makeCritter(inputSplit[1]);
+                                Critter.makeCritter(myPackage + "." + inputSplit[1]); //prepend the package name
                             }
                         }
                         break;
