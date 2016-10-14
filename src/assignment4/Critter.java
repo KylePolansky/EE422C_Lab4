@@ -49,12 +49,54 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	
+
+	private void move(int direction, int amount) {
+		int newX, newY = 0;
+		//TODO check to make sure that move is called only once. Not sure if that will be done here or somewhere else.
+		switch (direction) {
+			case 0:
+				newX = (x_coord + amount) % Params.world_width;
+				break;
+			case 1:
+				newX = (x_coord + amount) % Params.world_width;
+				newY = (y_coord + amount) % Params.world_height;
+				break;
+			case 2:
+				newY = (y_coord + amount) % Params.world_height;
+				break;
+			case 3:
+				newX = (x_coord - amount) % Params.world_width;
+				newY = (y_coord + amount) % Params.world_height;
+				break;
+			case 4:
+				newX = (x_coord - amount) % Params.world_width;
+				break;
+			case 5:
+				newX = (x_coord - amount) % Params.world_width;
+				newY = (y_coord - amount) % Params.world_height;
+				break;
+			case 6:
+				newY = (y_coord - amount) % Params.world_height;
+				break;
+			case 7:
+				newX = (x_coord + amount) % Params.world_width;
+				newY = (y_coord - amount) % Params.world_height;
+				break;
+			default:
+				//Something went wrong
+				break;
+		}
+
+	}
+
 	protected final void walk(int direction) {
+		move(direction, 1);
+		energy -= Params.walk_energy_cost;
 	}
 	
 	protected final void run(int direction) {
-		
+		move(direction, 2);
+		energy -= Params.run_energy_cost;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -92,7 +134,6 @@ public abstract class Critter {
 
 			//Add to arrary
 			aliveCritters.add(c);
-
 		}
 		catch (java.lang.NoClassDefFoundError e) {
 			throw new InvalidCritterException(critter_class_name);
@@ -100,8 +141,6 @@ public abstract class Critter {
 		catch (Exception e) {
 			throw new InvalidCritterException(critter_class_name);
 		}
-
-
 	}
 	
 	/**
