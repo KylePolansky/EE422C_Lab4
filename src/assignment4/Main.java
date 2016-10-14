@@ -90,10 +90,12 @@ public class Main {
                         if (checkInputLength(input,1)) {
                             System.exit(0);
                         }
+                        break;
                     case "show":
                         if (checkInputLength(input,1)) {
                             Critter.displayWorld();
                         }
+                        break;
                     case "step":
                         if (checkInputLength(input,1,2)) {
                             int numSteps = 1;
@@ -102,20 +104,31 @@ public class Main {
                             }
                             //TODO: Move <numSteps> steps
                         }
+                        break;
                     case "seed":
                         if (checkInputLength(input,2)) {
                             //TODO: Implement seed
                         }
+                        break;
                     case "make":
                         if (checkInputLength(input,2,3)) {
-                            //TODO: Implement make
+                            int numCritters = 1;
+                            if (inputSplit.length == 3) {
+                                numCritters = Integer.parseInt(inputSplit[2]);
+                            }
+                            for (int i = 0; i < numCritters; i++) {
+                                Critter.makeCritter(myPackage + "." + inputSplit[1]); //prepend the package name
+                            }
                         }
+                        break;
                     case "stats":
                         if (checkInputLength(input,2)) {
                             //TODO: Implement stats
                         }
+                        break;
                     default:
                         printInvalidOutput(input);
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println("error processing: " + input);
