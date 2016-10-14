@@ -240,16 +240,28 @@ public abstract class Critter {
 	}
 	
 	public static void worldTimeStep() {
+		//Move
 		for(int i = 0; i < aliveCritters.size(); i++)
 		{
 			aliveCritters.get(i).doTimeStep();
 			aliveCritters.get(i).energy -= Params.rest_energy_cost;
-			if(aliveCritters.get(i).energy <= 0)
-			{
+		}
+
+		//Resolve encounters
+
+
+
+		//Remove dead critters
+		for (int i = 0; i < aliveCritters.size(); i++) {
+			if (aliveCritters.get(i).energy <= 0) {
 				aliveCritters.remove(i);
 				i--;
 			}
 		}
+
+		//Add babies to the world
+		aliveCritters.addAll(babies);
+		babies = new ArrayList<>();
 	}
 	
 	public static void displayWorld() {
