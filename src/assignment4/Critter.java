@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -235,10 +236,60 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		aliveCritters = new ArrayList <Critter>();
 	}
 	
 	public static void worldTimeStep() {
+		for(int i = 0; i < aliveCritters.size(); i++)
+		{
+			aliveCritters.get(i).doTimeStep();
+			aliveCritters.get(i).energy -= Params.rest_energy_cost;
+			if(aliveCritters.get(i).energy <= 0)
+			{
+				aliveCritters.remove(i);
+				i--;
+			}
+		}
 	}
 	
-	public static void displayWorld() {}
+	public static void displayWorld() {
+		System.out.print("+");
+		int printFlag = 0;
+		for(int i = 0; i < Params.world_width; i++)
+		{
+			System.out.print("-");
+		}
+		System.out.println("+");
+		for(int i = 0; i < Params.world_height; i++)
+		{
+			System.out.print("|");
+			for(int j = 0; j < Params.world_width; j++)
+			{
+				for(int k = 0; k < aliveCritters.size(); k++)
+				{
+					if(aliveCritters.get(k).y_coord == i && aliveCritters.get(k).x_coord == j)
+					{
+						System.out.print(aliveCritters.get(k).toString());
+						printFlag = 1;
+						k = aliveCritters.size(); // breaks out of this one for-loop
+					}
+					
+				}
+				if(printFlag == 0)
+				{
+				System.out.print(" ");
+				}
+				printFlag = 0;
+			}
+			System.out.println("|");
+		}
+		System.out.print("+");
+		for(int i = 0; i < Params.world_width; i++)
+		{
+			System.out.print("-");
+		}
+		System.out.print("+");
+		System.out.println();
+		
+	}
 }
