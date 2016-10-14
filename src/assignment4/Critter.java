@@ -25,6 +25,7 @@ public abstract class Critter {
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 
+	private	static List<Critter> aliveCritters = new java.util.ArrayList<>();
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
