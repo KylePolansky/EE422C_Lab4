@@ -12,6 +12,7 @@
  */
 package assignment4;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* see the PDF for descriptions of the methods and fields in this class
@@ -196,6 +197,7 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		aliveCritters = new ArrayList <Critter>();
 	}
 	
 	public static void worldTimeStep() {

@@ -108,6 +108,7 @@ public class Main {
                     case "seed":
                         if (checkInputLength(input,2)) {
                             //TODO: Implement seed
+                        	Critter.setSeed(Integer.parseInt(inputSplit[1])); 
                         }
                         break;
                     case "make":
