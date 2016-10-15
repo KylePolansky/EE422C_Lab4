@@ -102,13 +102,14 @@ public class Main {
                             if (inputSplit.length == 2) {
                                 numSteps = Integer.parseInt(inputSplit[1]);
                             }
-                            //TODO: Move <numSteps> steps
+                            for (int i = 0; i < numSteps; i++) {
+                                Critter.worldTimeStep();
+                            }
                         }
                         break;
                     case "seed":
                         if (checkInputLength(input,2)) {
-                            //TODO: Implement seed
-                        	Critter.setSeed(Integer.parseInt(inputSplit[1])); 
+                        	Critter.setSeed(Integer.parseInt(inputSplit[1]));
                         }
                         break;
                     case "make":
@@ -124,7 +125,11 @@ public class Main {
                         break;
                     case "stats":
                         if (checkInputLength(input,2)) {
-                            //TODO: Implement stats
+                            String classname = myPackage + "." + inputSplit[1];
+                            Class cls = Class.forName(classname);
+                            
+                            Craig.runStats(Critter.getInstances(classname));
+);
                         }
                         break;
                     default:
