@@ -48,6 +48,9 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
+	private int lastMoved = 0;
+	private static int timeStep = 0;
+	private static boolean areFighting = false;
 
 	/**
 	 * Move critter in the direction specified the amount of steps, using wrap around math
@@ -56,7 +59,13 @@ public abstract class Critter {
 	 */
 	private void move(int direction, int amount) {
 		int newX = x_coord, newY = y_coord;
-		//TODO check to make sure that move is called only once. Not sure if that will be done here or somewhere else.
+
+		//Don't move if previously moved in this step
+		if (this.lastMoved == timeStep) {
+			return;
+		}
+
+		//Calculate new direction
 		switch (direction) {
 			case 0:
 				newX = (x_coord + amount) % Params.world_width;
@@ -90,8 +99,20 @@ public abstract class Critter {
 				//Something went wrong
 				break;
 		}
+
+		//If fighting, cannot move to a spot otherwise occupied
+		if (areFighting) {
+			for (Critter c : population) {
+				if (c.x_coord == newX && c.y_coord == newY) {
+					return;
+				}
+			}
+		}
+
+		//Update critter
 		this.x_coord = newX;
 		this.y_coord = newY;
+		this.lastMoved = timeStep;
 	}
 
 	/**
@@ -282,6 +303,9 @@ public abstract class Critter {
 		population = new ArrayList <Critter>();
 	}
 
+	/**
+	 * Removes all the dead critters in the worldmo
+	 */
 	private static void removeDeadCritters() {
 		for (int i = 0; i < population.size(); i++) {
 			if (population.get(i).energy <= 0) {
@@ -291,6 +315,11 @@ public abstract class Critter {
 		}
 	}
 
+	/**
+	 * Gets pairs of critters that are at the same position. This is not a very efficient method, but it gets the job done.
+	 * @param startCritter the index in the population to start with. Used to bypass previously check Critters
+	 * @return an ArrayList of 2 critter positions that are at the same position, or null if there are no conflicts
+	 */
 	private static ArrayList<Integer> getEncounter(int startCritter) {
 		for (int firstCritterIdx = startCritter; firstCritterIdx < population.size(); firstCritterIdx ++) {
 			int firstCritterX = population.get(firstCritterIdx).x_coord;
@@ -311,6 +340,11 @@ public abstract class Critter {
 		return null;
 	}
 
+	/**
+	 * Resolve a conflict between 2 critters, usually involving a fight and ending in someone fleeing or dying
+	 * @param c1 the first critter
+	 * @param c2 the second critter
+	 */
 	private static void resolveEncounter(Critter c1, Critter c2) {
 		boolean aFight = c1.fight(c2.toString());
 		boolean bFight = c2.fight(c1.toString());
@@ -338,7 +372,10 @@ public abstract class Critter {
 		}
 		removeDeadCritters();
 	}
-	
+
+	/**
+	 * Simulate one world time step
+	 */
 	public static void worldTimeStep() {
 		//Move
 		for(int i = 0; i < population.size(); i++)
@@ -349,7 +386,8 @@ public abstract class Critter {
 		removeDeadCritters();
 
 		//Resolve encounters
-		//TODO Test this, I'll be surprised if this works.
+		//TODO Test this, there are probably some bugs
+		areFighting = true;
 		int encounterCheck = 0;
 		while (encounterCheck < population.size()) {
 			ArrayList<Integer> al = getEncounter(encounterCheck);
@@ -359,6 +397,7 @@ public abstract class Critter {
 			encounterCheck = al.get(0);
 			resolveEncounter(population.get(al.get(0)), population.get(al.get(1)));
 		}
+		areFighting = false;
 
 		//Remove dead critters
 		removeDeadCritters();
@@ -376,8 +415,12 @@ public abstract class Critter {
 				//This shouldn't happen
 			}
 		}
+		timeStep++;
 	}
-	
+
+	/**
+	 * Print out a grid of the world
+	 */
 	public static void displayWorld() {
 		System.out.print("+");
 		int printFlag = 0;
