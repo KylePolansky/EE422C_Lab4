@@ -269,6 +269,11 @@ public abstract class Critter {
 		//Add babies to the world
 		aliveCritters.addAll(babies);
 		babies = new ArrayList<>();
+
+		//Add Algae to world
+		for (int i = 0; i < Params.refresh_algae_count; i++) {
+			aliveCritters.add(new Algae());
+		}
 	}
 	
 	public static void displayWorld() {
