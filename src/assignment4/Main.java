@@ -11,6 +11,8 @@
  * Fall 2016
  */
 package assignment4; // cannot be in default package
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -126,10 +128,9 @@ public class Main {
                     case "stats":
                         if (checkInputLength(input,2)) {
                             String classname = myPackage + "." + inputSplit[1];
-                            Class cls = Class.forName(classname);
-                            
-                            Craig.runStats(Critter.getInstances(classname));
-);
+
+                            List<Critter> critters = Critter.getInstances(classname);
+                            Class.forName(classname).getMethod("runStats", java.util.List.class).invoke(null,critters);
                         }
                         break;
                     default:

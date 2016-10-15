@@ -23,10 +23,8 @@ import java.util.List;
 
 public abstract class Critter {
 	private static String myPackage;
-	private	static List<Critter> population = new java.util.ArrayList<Critter>();
-	private static List<Critter> babies = new java.util.ArrayList<Critter>();
-
-	private	static List<Critter> aliveCritters = new java.util.ArrayList<>();
+	private	static List<Critter> population = new java.util.ArrayList<>();
+	private static List<Critter> babies = new java.util.ArrayList<>();
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
@@ -51,6 +49,11 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 
+	/**
+	 * Move critter in the direction specified the amount of steps, using wrap around math
+	 * @param direction the direction to move
+	 * @param amount the number of steps to move
+	 */
 	private void move(int direction, int amount) {
 		int newX = x_coord, newY = y_coord;
 		//TODO check to make sure that move is called only once. Not sure if that will be done here or somewhere else.
@@ -91,11 +94,19 @@ public abstract class Critter {
 		this.y_coord = newY;
 	}
 
+	/**
+	 * Move 1 step in direction
+	 * @param direction the direction to move
+	 */
 	protected final void walk(int direction) {
 		move(direction, 1);
 		energy -= Params.walk_energy_cost;
 	}
-	
+
+	/**
+	 * Move 2 steps in direction
+	 * @param direction the direction to move
+	 */
 	protected final void run(int direction) {
 		move(direction, 2);
 		energy -= Params.run_energy_cost;
@@ -152,7 +163,7 @@ public abstract class Critter {
 			c.energy = initEnergy;
 
 			//Add to arrary
-			aliveCritters.add(c);
+			population.add(c);
 		}
 		catch (java.lang.NoClassDefFoundError e) {
 			throw new InvalidCritterException(critter_class_name);
@@ -170,7 +181,21 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		try {
+			Class cls = Class.forName(critter_class_name);
+
+			for (Critter c : population) {
+				if (cls.isInstance(c)) {
+					result.add(c);
+				}
+			}
+		}
+		catch (java.lang.NoClassDefFoundError e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		catch (Exception e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
 		return result;
 	}
 	
@@ -254,25 +279,25 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-		aliveCritters = new ArrayList <Critter>();
+		population = new ArrayList <Critter>();
 	}
 
 	private static void removeDeadCritters() {
-		for (int i = 0; i < aliveCritters.size(); i++) {
-			if (aliveCritters.get(i).energy <= 0) {
-				aliveCritters.remove(i);
+		for (int i = 0; i < population.size(); i++) {
+			if (population.get(i).energy <= 0) {
+				population.remove(i);
 				i--;
 			}
 		}
 	}
 
 	private static ArrayList<Integer> getEncounter(int startCritter) {
-		for (int firstCritterIdx = startCritter; firstCritterIdx < aliveCritters.size(); firstCritterIdx ++) {
-			int firstCritterX = aliveCritters.get(firstCritterIdx).x_coord;
-			int firstCritterY = aliveCritters.get(firstCritterIdx).y_coord;
-			for (int secondCritterIdx = firstCritterIdx; secondCritterIdx < aliveCritters.size(); secondCritterIdx++) {
-				int secondCritterX = aliveCritters.get(secondCritterIdx).x_coord;
-				int secondCritterY = aliveCritters.get(secondCritterIdx).y_coord;
+		for (int firstCritterIdx = startCritter; firstCritterIdx < population.size(); firstCritterIdx ++) {
+			int firstCritterX = population.get(firstCritterIdx).x_coord;
+			int firstCritterY = population.get(firstCritterIdx).y_coord;
+			for (int secondCritterIdx = firstCritterIdx + 1; secondCritterIdx < population.size(); secondCritterIdx++) {
+				int secondCritterX = population.get(secondCritterIdx).x_coord;
+				int secondCritterY = population.get(secondCritterIdx).y_coord;
 
 				if (firstCritterX == secondCritterX && firstCritterY == secondCritterY) {
 					//Conflict
@@ -316,35 +341,40 @@ public abstract class Critter {
 	
 	public static void worldTimeStep() {
 		//Move
-		for(int i = 0; i < aliveCritters.size(); i++)
+		for(int i = 0; i < population.size(); i++)
 		{
-			aliveCritters.get(i).doTimeStep();
-			aliveCritters.get(i).energy -= Params.rest_energy_cost;
+			population.get(i).doTimeStep();
+			population.get(i).energy -= Params.rest_energy_cost;
 		}
 		removeDeadCritters();
 
 		//Resolve encounters
 		//TODO Test this, I'll be surprised if this works.
 		int encounterCheck = 0;
-		while (encounterCheck < aliveCritters.size()) {
+		while (encounterCheck < population.size()) {
 			ArrayList<Integer> al = getEncounter(encounterCheck);
 			if (al == null) {
 				break;
 			}
 			encounterCheck = al.get(0);
-			resolveEncounter(aliveCritters.get(al.get(0)), aliveCritters.get(al.get(1)));
+			resolveEncounter(population.get(al.get(0)), population.get(al.get(1)));
 		}
 
 		//Remove dead critters
 		removeDeadCritters();
 
 		//Add babies to the world
-		aliveCritters.addAll(babies);
+		population.addAll(babies);
 		babies = new ArrayList<>();
 
 		//Add Algae to world
 		for (int i = 0; i < Params.refresh_algae_count; i++) {
-			aliveCritters.add(new Algae());
+			try {
+				makeCritter(myPackage + ".Algae");
+			}
+			catch (InvalidCritterException e) {
+				//This shouldn't happen
+			}
 		}
 	}
 	
@@ -361,13 +391,13 @@ public abstract class Critter {
 			System.out.print("|");
 			for(int j = 0; j < Params.world_width; j++)
 			{
-				for(int k = 0; k < aliveCritters.size(); k++)
+				for(int k = 0; k < population.size(); k++)
 				{
-					if(aliveCritters.get(k).y_coord == i && aliveCritters.get(k).x_coord == j)
+					if(population.get(k).y_coord == i && population.get(k).x_coord == j)
 					{
-						System.out.print(aliveCritters.get(k).toString());
+						System.out.print(population.get(k).toString());
 						printFlag = 1;
-						k = aliveCritters.size(); // breaks out of this one for-loop
+						k = population.size(); // breaks out of this one for-loop
 					}
 					
 				}
