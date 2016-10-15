@@ -52,7 +52,7 @@ public abstract class Critter {
 	private int y_coord;
 
 	private void move(int direction, int amount) {
-		int newX, newY = 0;
+		int newX = x_coord, newY = y_coord;
 		//TODO check to make sure that move is called only once. Not sure if that will be done here or somewhere else.
 		switch (direction) {
 			case 0:
@@ -87,7 +87,8 @@ public abstract class Critter {
 				//Something went wrong
 				break;
 		}
-
+		this.x_coord = newX;
+		this.y_coord = newY;
 	}
 
 	protected final void walk(int direction) {
@@ -101,12 +102,22 @@ public abstract class Critter {
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
-		if(Params.min_reproduce_energy > this.energy)
-		{return;}
-		offspring.energy = (1/2)*this.energy;
-		this.energy = (1/2)*this.energy;
+		//Ensure there is enough energy
+		if(this.energy < Params.min_reproduce_energy) {
+			return;
+		}
+
+		//Calculate new energy values
+		int originalEnergy = this.energy;
+		offspring.energy = originalEnergy / 2;
+		this.energy = originalEnergy / 2 + originalEnergy % 2;
+
+		//Add offspring one position adjacent from parent
 		offspring.x_coord = this.x_coord;
 		offspring.y_coord = this.y_coord;
+		offspring.move(direction, 1);
+
+		//Add to babies list to be added at the end of the world cycle
 		babies.add(offspring);
 	}
 
