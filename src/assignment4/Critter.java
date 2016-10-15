@@ -245,6 +245,63 @@ public abstract class Critter {
 	public static void clearWorld() {
 		aliveCritters = new ArrayList <Critter>();
 	}
+
+	private static void removeDeadCritters() {
+		for (int i = 0; i < aliveCritters.size(); i++) {
+			if (aliveCritters.get(i).energy <= 0) {
+				aliveCritters.remove(i);
+				i--;
+			}
+		}
+	}
+
+	private static ArrayList<Integer> getEncounter(int startCritter) {
+		for (int firstCritterIdx = startCritter; firstCritterIdx < aliveCritters.size(); firstCritterIdx ++) {
+			int firstCritterX = aliveCritters.get(firstCritterIdx).x_coord;
+			int firstCritterY = aliveCritters.get(firstCritterIdx).y_coord;
+			for (int secondCritterIdx = firstCritterIdx; secondCritterIdx < aliveCritters.size(); secondCritterIdx++) {
+				int secondCritterX = aliveCritters.get(secondCritterIdx).x_coord;
+				int secondCritterY = aliveCritters.get(secondCritterIdx).y_coord;
+
+				if (firstCritterX == secondCritterX && firstCritterY == secondCritterY) {
+					//Conflict
+					ArrayList<Integer> al = new ArrayList<>();
+					al.add(firstCritterIdx);
+					al.add(secondCritterIdx);
+					return al;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static void resolveEncounter(Critter c1, Critter c2) {
+		boolean aFight = c1.fight(c2.toString());
+		boolean bFight = c2.fight(c1.toString());
+
+		//If both alive and in the same position
+		if (c1.getEnergy() > 0 && c2.getEnergy() > 0 && c1.x_coord == c2.x_coord && c1.y_coord == c2.y_coord) {
+			int randA = 0, randB = 0;
+			if (aFight) {
+				randA =	getRandomInt(c1.getEnergy());
+			}
+			if (bFight) {
+				randB = getRandomInt(c2.getEnergy());
+			}
+
+			if (randA >= randB) {
+				//A wins
+				c1.energy += c2.getEnergy() / 2;
+				c2.energy = 0;
+			}
+			else {
+				//B wins
+				c2.energy += c1.getEnergy() / 2;
+				c1.energy = 1;
+			}
+		}
+		removeDeadCritters();
+	}
 	
 	public static void worldTimeStep() {
 		//Move
@@ -253,18 +310,22 @@ public abstract class Critter {
 			aliveCritters.get(i).doTimeStep();
 			aliveCritters.get(i).energy -= Params.rest_energy_cost;
 		}
+		removeDeadCritters();
 
 		//Resolve encounters
-
-
+		//TODO Test this, I'll be surprised if this works.
+		int encounterCheck = 0;
+		while (encounterCheck < aliveCritters.size()) {
+			ArrayList<Integer> al = getEncounter(encounterCheck);
+			if (al == null) {
+				break;
+			}
+			encounterCheck = al.get(0);
+			resolveEncounter(aliveCritters.get(al.get(0)), aliveCritters.get(al.get(1)));
+		}
 
 		//Remove dead critters
-		for (int i = 0; i < aliveCritters.size(); i++) {
-			if (aliveCritters.get(i).energy <= 0) {
-				aliveCritters.remove(i);
-				i--;
-			}
-		}
+		removeDeadCritters();
 
 		//Add babies to the world
 		aliveCritters.addAll(babies);
