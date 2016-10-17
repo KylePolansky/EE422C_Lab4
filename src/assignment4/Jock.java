@@ -18,7 +18,7 @@ public class Jock extends Critter{
 	
 	public Jock() {
 	
-		for (int k = 0; k < 8; k += 2) {
+		for (int k = 0; k < 8; k += 1) {
 			genes[k] = GENE_TOTAL / 8;
 		}
 		dir = ((Critter.getRandomInt(8) / 2) * 2);
@@ -72,7 +72,7 @@ public class Jock extends Critter{
 			total_back += c.genes[4];
 			total_left += c.genes[5] + c.genes[6] + c.genes[7];
 		}
-		System.out.print("" + Jocks.size() + " total Craigs    ");
+		System.out.print("" + Jocks.size() + " total Jocks    ");
 		System.out.print("" + total_straight / (GENE_TOTAL * 0.01 * Jocks.size()) + "% straight   ");
 		System.out.print("" + total_back / (GENE_TOTAL * 0.01 * Jocks.size()) + "% back   ");
 		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * Jocks.size()) + "% right   ");

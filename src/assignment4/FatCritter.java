@@ -1,7 +1,8 @@
 package assignment4;
 /*
  * Critter that moves very seldom. It only walks and fights when it's hungry
- *  (energy level is below 100). It is also too lazy to reproduce and only does so when energy level is
+ *  (energy level is below 100). It may walk when it isn't hungry in case it gets bored.
+ *  It is also too lazy to reproduce and only does so when energy level is
  *  above 200.
  */
 public class FatCritter extends Critter{
@@ -31,10 +32,15 @@ public class FatCritter extends Critter{
 
 	@Override
 	public void doTimeStep() {
-		/* take one step forward */
-		if(getEnergy() > 100)
+		/* take one step forward only if hungry*/
+		if(getEnergy() <= 100)
 		walk(dir);
-		
+		else{
+			if(Critter.getRandomInt(100) < 50)
+			{
+				walk(dir);
+			}
+		}
 		if (getEnergy() > 200) {
 			FatCritter child = new FatCritter();
 			for (int k = 0; k < 8; k += 1) {
@@ -74,7 +80,7 @@ public class FatCritter extends Critter{
 			total_back += c.genes[4];
 			total_left += c.genes[5] + c.genes[6] + c.genes[7];
 		}
-		System.out.print("" + fatCritters.size() + " total Craigs    ");
+		System.out.print("" + fatCritters.size() + " total fatCritters    ");
 		System.out.print("" + total_straight / (GENE_TOTAL * 0.01 * fatCritters.size()) + "% straight   ");
 		System.out.print("" + total_back / (GENE_TOTAL * 0.01 * fatCritters.size()) + "% back   ");
 		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * fatCritters.size()) + "% right   ");
