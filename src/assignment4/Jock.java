@@ -1,4 +1,16 @@
 package assignment4;
+/* CRITTERS <MyClass.java>
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * <Brian Madina>
+ * <bjm3348>
+ * <16460>
+ * <Kyle Polansky>
+ * <KPP446>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 /*
  * The Jock critter is a more athletic critter. Since it is 
  * healthier than the average critter, it runs everywhere it goes. It also fights everything, as it 

@@ -14,7 +14,18 @@ package assignment4;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/* CRITTERS <MyClass.java>
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * <Brian Madina>
+ * <bjm3348>
+ * <16460>
+ * <Kyle Polansky>
+ * <KPP446>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter

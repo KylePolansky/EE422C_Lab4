@@ -1,10 +1,23 @@
 package assignment4;
+/* CRITTERS <MyClass.java>
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * <Brian Madina>
+ * <bjm3348>
+ * <16460>
+ * <Kyle Polansky>
+ * <KPP446>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 /*
  * Critter that moves very seldom. It only walks and fights when it's hungry
  *  (energy level is below 100). It may walk when it isn't hungry in case it gets bored.
  *  It is also too lazy to reproduce and only does so when energy level is
  *  above 200.
  */
+
 public class FatCritter extends Critter{
 
 
