@@ -367,7 +367,7 @@ public abstract class Critter {
 			else {
 				//B wins
 				c2.energy += c1.getEnergy() / 2;
-				c1.energy = 1;
+				c1.energy = 0;
 			}
 		}
 		removeDeadCritters();
