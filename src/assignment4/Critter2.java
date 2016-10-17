@@ -14,7 +14,7 @@ package assignment4;
 /*
  * The Jock critter is a more athletic critter. Since it is 
  * healthier than the average critter, it runs everywhere it goes. It also fights everything, as it 
- * believes it is better than everything. It also reproduces a lot more often than the average critter
+ * believes it is better than everything. However, it does not fight other jocks. It also reproduces a lot more often than the average critter
  * as jocks tend to partake in more inappropriate acts than the average critter and tends to not
  * be as smart about it. Since it is not the sharpest tool in the shed, it also can't seem to figure 
  * out how to move diagonally.It is a critter that thinks itself as so perfect that evolution isn't necessary
@@ -34,8 +34,10 @@ public class Critter2 extends Critter{
 		
 		dir = ((Critter.getRandomInt(8) / 2) * 2);//cannot move diagonally
 	}
-	public boolean fight(String not_used) { 
-		return true;
+	public boolean fight(String not_used) {
+		if(!not_used.equals("2"))
+		{return true;}
+		return false;
 		
 	}
 
