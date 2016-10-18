@@ -1,21 +1,4 @@
-/* CRITTERS Main.java
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
- * Fall 2016
- */
-package assignment4; // cannot be in default package
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Scanner;
-import java.io.*;
-/* CRITTERS <MyClass.java>
+/* CRITTERS <Main.java>
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
  * <Brian Madina>
@@ -27,6 +10,12 @@ import java.io.*;
  * Slip days used: <0>
  * Fall 2016
  */
+
+package assignment4; // cannot be in default package
+import java.util.List;
+import java.util.Scanner;
+import java.io.*;
+
 
 /*
  * Usage: java <pkgname>.Main <input file> test

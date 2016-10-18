@@ -1,20 +1,4 @@
-/* CRITTERS Critter.java
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
- * Fall 2016
- */
-package assignment4;
-
-import java.util.ArrayList;
-import java.util.List;
-/* CRITTERS <MyClass.java>
+/* CRITTERS <Critter.java>
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
  * <Brian Madina>
@@ -26,6 +10,12 @@ import java.util.List;
  * Slip days used: <0>
  * Fall 2016
  */
+
+package assignment4;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter

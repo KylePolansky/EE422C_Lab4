@@ -1,5 +1,4 @@
-package assignment4;
-/* CRITTERS <MyClass.java>
+/* CRITTERS <Critter1.java>
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
  * <Brian Madina>
@@ -11,6 +10,9 @@ package assignment4;
  * Slip days used: <0>
  * Fall 2016
  */
+
+package assignment4;
+
 /*
  * a fat critter that moves very seldom. It only walks and fights when it's hungry
  *  (energy level is below 100). It may walk when it isn't hungry in case it gets bored.
