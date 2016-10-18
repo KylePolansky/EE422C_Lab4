@@ -217,10 +217,10 @@ public abstract class Critter {
 			population.add(c);
 		}
 		catch (java.lang.NoClassDefFoundError e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		catch (Exception e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 	}
 	
@@ -242,10 +242,10 @@ public abstract class Critter {
 			}
 		}
 		catch (java.lang.NoClassDefFoundError e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		catch (Exception e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		return result;
 	}
