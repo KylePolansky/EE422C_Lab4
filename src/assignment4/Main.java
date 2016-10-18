@@ -92,7 +92,7 @@ public class Main {
                 switch (inputSplit[0]) {
                     case "quit":
                         if (checkInputLength(input,1)) {
-                            System.exit(0);
+                            return;
                         }
                         break;
                     case "show":
