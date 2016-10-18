@@ -21,6 +21,9 @@ package assignment4;
  */
 
 public class Critter1 extends Critter{
+	private static final int REPRODUCE_ENERGY = 200;
+	private static final int HUNGRY_ENERGY = 200;
+	private static final int RANDOM_MOVE_PERCENT = 50;
 
 
 	@Override
@@ -47,15 +50,15 @@ public class Critter1 extends Critter{
 	@Override
 	public void doTimeStep() {
 		/* take one step forward only if hungry*/
-		if(getEnergy() <= 100)
+		if(getEnergy() <= HUNGRY_ENERGY)
 		walk(dir);
 		else{
-			if(Critter.getRandomInt(100) < 50)
+			if(Critter.getRandomInt(100) < RANDOM_MOVE_PERCENT)
 			{
 				walk(dir);
 			}
 		}
-		if (getEnergy() > 200) {
+		if (getEnergy() > REPRODUCE_ENERGY) {
 			Critter1 child = new Critter1();
 			reproduce(child, Critter.getRandomInt(8));
 		}

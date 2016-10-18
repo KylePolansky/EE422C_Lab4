@@ -49,9 +49,9 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	private int lastMoved = 0;
-	private static int timeStep = 0;
-	private static boolean areFighting = false;
+	private int lastMoved = 0; //Critter timeStep
+	private static int timeStep = 0; //world timeStep
+	private static boolean areFighting = false; //If critters are currently in the fighting stage
 
 	/**
 	 * Move critter in the direction specified the amount of steps, using wrap around math
@@ -133,7 +133,12 @@ public abstract class Critter {
 		move(direction, 2);
 		energy -= Params.run_energy_cost;
 	}
-	
+
+	/**
+	 * Reproduce if there is enough energy
+	 * @param offspring the new baby critter
+	 * @param direction the direction that the baby should move
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		//Ensure there is enough energy
 		if(this.energy < Params.min_reproduce_energy) {
@@ -387,7 +392,6 @@ public abstract class Critter {
 		removeDeadCritters();
 
 		//Resolve encounters
-		//TODO Test this, there are probably some bugs
 		areFighting = true;
 		int encounterCheck = 0;
 		while (encounterCheck < population.size()) {
