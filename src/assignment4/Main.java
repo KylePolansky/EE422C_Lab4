@@ -15,7 +15,18 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
-
+/* CRITTERS <MyClass.java>
+ * EE422C Project 4 submission by
+ * Replace <...> with your actual data.
+ * <Brian Madina>
+ * <bjm3348>
+ * <16460>
+ * <Kyle Polansky>
+ * <KPP446>
+ * <16480>
+ * Slip days used: <0>
+ * Fall 2016
+ */
 
 /*
  * Usage: java <pkgname>.Main <input file> test
