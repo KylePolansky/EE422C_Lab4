@@ -17,8 +17,8 @@ import java.util.Scanner;
 import java.io.*;
 
 
-/*
- * Usage: java <pkgname>.Main <input file> test
+/**
+ * Usage: java [pkgname].Main [input file] test
  * input file is optional.  If input file is specified, the word 'test' is optional.
  * May not use 'test' argument without specifying input file.
  */
@@ -32,7 +32,9 @@ public class Main {
     static PrintStream old = System.out;	// if you want to restore output to console
 
 
-    // Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
+    /**
+     * Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
+     */
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
     }

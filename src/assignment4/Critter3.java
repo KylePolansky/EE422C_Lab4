@@ -14,8 +14,8 @@
 package assignment4;
 
 /**
- * A rock critter that sits in one position and doesn't do anything unless it runs out of energy (ex. gets eroded),
- * or another critter throws the rock away off the map during a fight.
+ * A rock critter that sits in one position and doesn't do anything unless it runs out of energy
+ * (ex. gets eroded), or another critter throws the rock away off the map during a fight.
  */
 public class Critter3 extends Critter{
 

@@ -32,19 +32,34 @@ public abstract class Critter {
 	}
 	
 	private static java.util.Random rand = new java.util.Random();
+
+    /**
+     * Get a random number
+     * @param max the max value to return
+     * @return a random number between 0 and max
+     */
 	public static int getRandomInt(int max) {
 		return rand.nextInt(max);
 	}
-	
+
+    /**
+     * Set a new seed for random number generation
+     * @param new_seed seed to use
+     */
 	public static void setSeed(long new_seed) {
 		rand = new java.util.Random(new_seed);
 	}
 	
 	
-	/* a one-character long string that visually depicts your critter in the ASCII interface */
+	/** a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
 	private int energy = 0;
+    /**
+	 * The amount of energy that a Critter has
+	 * @return the critter's energy
+	 */
+
 	protected int getEnergy() { return energy; }
 	
 	private int x_coord;
@@ -159,7 +174,16 @@ public abstract class Critter {
 		babies.add(offspring);
 	}
 
+    /**
+     * To be implemented by Critters, what happens during each timeStep.
+     */
 	public abstract void doTimeStep();
+
+    /**
+     * To be implemented by Critters, how to react in a fight.
+     * @param oponent the opponent you are fighting
+     * @return whether or not to fight
+     */
 	public abstract boolean fight(String oponent);
 	
 	/**
@@ -170,7 +194,7 @@ public abstract class Critter {
 	 * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
 	 * an Exception.)
 	 * @param critter_class_name must be the fully qualified name
-	 * @throws InvalidCritterException
+	 * @throws InvalidCritterException if the critter_class_name is not found
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 
@@ -204,7 +228,7 @@ public abstract class Critter {
 	 * Gets a list of critters of a specific type.
 	 * @param critter_class_name What kind of Critter is to be listed.  Unqualified class name.
 	 * @return List of Critters.
-	 * @throws InvalidCritterException
+	 * @throws InvalidCritterException if the critter_class_name is not found
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
