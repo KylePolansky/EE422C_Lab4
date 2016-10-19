@@ -166,7 +166,7 @@ public class Main {
         if (command.split("\\s").length == terms || command.split("\\s").length == optionalTerms) {
             return true;
         }
-        printInvalidOutput(command);
+        System.out.println("error processing: " + command);
         return false;
     }
 
