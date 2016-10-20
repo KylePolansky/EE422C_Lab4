@@ -65,7 +65,7 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	private int lastMoved = 0; //Critter timeStep
-	private static int timeStep = 0; //world timeStep
+	private static int timeStep = 1; //world timeStep
 	private static boolean areFighting = false; //If critters are currently in the fighting stage
 
 	/**
@@ -462,7 +462,6 @@ public abstract class Critter {
 	 */
 	public static void displayWorld() {
 		System.out.print("+");
-		int printFlag = 0;
 		for(int i = 0; i < Params.world_width; i++)
 		{
 			System.out.print("-");
@@ -473,21 +472,21 @@ public abstract class Critter {
 			System.out.print("|");
 			for(int j = 0; j < Params.world_width; j++)
 			{
+				int printFlag = 0;
 				for(int k = 0; k < population.size(); k++)
 				{
 					if(population.get(k).y_coord == i && population.get(k).x_coord == j)
 					{
 						System.out.print(population.get(k).toString());
 						printFlag = 1;
-						k = population.size(); // breaks out of this one for-loop
+						break; // breaks out of this one for-loop
 					}
 					
 				}
 				if(printFlag == 0)
 				{
-				System.out.print(" ");
+					System.out.print(" ");
 				}
-				printFlag = 0;
 			}
 			System.out.println("|");
 		}
