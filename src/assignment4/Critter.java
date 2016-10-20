@@ -200,7 +200,12 @@ public abstract class Critter {
 
 		try {
 			//Create new critter using reflection
-			Class cls = Class.forName(critter_class_name);
+			Class cls;
+			try {
+				cls = Class.forName(critter_class_name);
+			} catch (Exception e) {
+				cls = Class.forName(myPackage + "." + critter_class_name);
+			}
 			Object o = cls.getConstructor().newInstance();
 			Critter c = (Critter) o;
 
@@ -233,7 +238,12 @@ public abstract class Critter {
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 		try {
-			Class cls = Class.forName(critter_class_name);
+			Class cls;
+			try {
+				cls = Class.forName(critter_class_name);
+			} catch (Exception e) {
+				cls = Class.forName(myPackage + "." + critter_class_name);
+			}
 
 			for (Critter c : population) {
 				if (cls.isInstance(c)) {
