@@ -210,8 +210,8 @@ public abstract class Critter {
 			Critter c = (Critter) o;
 
 			//Set default values
-			int xPos = getRandomInt(Params.world_width - 1);
-			int yPos = getRandomInt(Params.world_height - 1);
+			int xPos = getRandomInt(Params.world_width);
+			int yPos = getRandomInt(Params.world_height);
 			int initEnergy = Params.start_energy;
 
 			c.x_coord = xPos;
