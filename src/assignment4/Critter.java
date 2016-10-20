@@ -1,20 +1,4 @@
-/* CRITTERS Critter.java
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
- * Fall 2016
- */
-package assignment4;
-
-import java.util.ArrayList;
-import java.util.List;
-/* CRITTERS <MyClass.java>
+/* CRITTERS <Critter.java>
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
  * <Brian Madina>
@@ -26,6 +10,12 @@ import java.util.List;
  * Slip days used: <0>
  * Fall 2016
  */
+
+package assignment4;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter
@@ -42,26 +32,41 @@ public abstract class Critter {
 	}
 	
 	private static java.util.Random rand = new java.util.Random();
+
+    /**
+     * Get a random number
+     * @param max the max value to return
+     * @return a random number between 0 and max
+     */
 	public static int getRandomInt(int max) {
 		return rand.nextInt(max);
 	}
-	
+
+    /**
+     * Set a new seed for random number generation
+     * @param new_seed seed to use
+     */
 	public static void setSeed(long new_seed) {
 		rand = new java.util.Random(new_seed);
 	}
 	
 	
-	/* a one-character long string that visually depicts your critter in the ASCII interface */
+	/** a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
 	private int energy = 0;
+    /**
+	 * The amount of energy that a Critter has
+	 * @return the critter's energy
+	 */
+
 	protected int getEnergy() { return energy; }
 	
 	private int x_coord;
 	private int y_coord;
-	private int lastMoved = 0;
-	private static int timeStep = 0;
-	private static boolean areFighting = false;
+	private int lastMoved = 0; //Critter timeStep
+	private static int timeStep = 0; //world timeStep
+	private static boolean areFighting = false; //If critters are currently in the fighting stage
 
 	/**
 	 * Move critter in the direction specified the amount of steps, using wrap around math
@@ -143,7 +148,12 @@ public abstract class Critter {
 		move(direction, 2);
 		energy -= Params.run_energy_cost;
 	}
-	
+
+	/**
+	 * Reproduce if there is enough energy
+	 * @param offspring the new baby critter
+	 * @param direction the direction that the baby should move
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		//Ensure there is enough energy
 		if(this.energy < Params.min_reproduce_energy) {
@@ -164,7 +174,16 @@ public abstract class Critter {
 		babies.add(offspring);
 	}
 
+    /**
+     * To be implemented by Critters, what happens during each timeStep.
+     */
 	public abstract void doTimeStep();
+
+    /**
+     * To be implemented by Critters, how to react in a fight.
+     * @param oponent the opponent you are fighting
+     * @return whether or not to fight
+     */
 	public abstract boolean fight(String oponent);
 	
 	/**
@@ -175,7 +194,7 @@ public abstract class Critter {
 	 * upper. For example, if craig is supplied instead of Craig, an error is thrown instead of
 	 * an Exception.)
 	 * @param critter_class_name must be the fully qualified name
-	 * @throws InvalidCritterException
+	 * @throws InvalidCritterException if the critter_class_name is not found
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
 
@@ -198,10 +217,10 @@ public abstract class Critter {
 			population.add(c);
 		}
 		catch (java.lang.NoClassDefFoundError e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		catch (Exception e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 	}
 	
@@ -209,7 +228,7 @@ public abstract class Critter {
 	 * Gets a list of critters of a specific type.
 	 * @param critter_class_name What kind of Critter is to be listed.  Unqualified class name.
 	 * @return List of Critters.
-	 * @throws InvalidCritterException
+	 * @throws InvalidCritterException if the critter_class_name is not found
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
@@ -223,10 +242,10 @@ public abstract class Critter {
 			}
 		}
 		catch (java.lang.NoClassDefFoundError e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		catch (Exception e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(new String());
 		}
 		return result;
 	}
@@ -397,7 +416,6 @@ public abstract class Critter {
 		removeDeadCritters();
 
 		//Resolve encounters
-		//TODO Test this, there are probably some bugs
 		areFighting = true;
 		int encounterCheck = 0;
 		while (encounterCheck < population.size()) {

@@ -1,21 +1,4 @@
-/* CRITTERS Main.java
- * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
- * Fall 2016
- */
-package assignment4; // cannot be in default package
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Scanner;
-import java.io.*;
-/* CRITTERS <MyClass.java>
+/* CRITTERS <Main.java>
  * EE422C Project 4 submission by
  * Replace <...> with your actual data.
  * <Brian Madina>
@@ -28,8 +11,14 @@ import java.io.*;
  * Fall 2016
  */
 
-/*
- * Usage: java <pkgname>.Main <input file> test
+package assignment4; // cannot be in default package
+import java.util.List;
+import java.util.Scanner;
+import java.io.*;
+
+
+/**
+ * Usage: java [pkgname].Main [input file] test
  * input file is optional.  If input file is specified, the word 'test' is optional.
  * May not use 'test' argument without specifying input file.
  */
@@ -43,7 +32,9 @@ public class Main {
     static PrintStream old = System.out;	// if you want to restore output to console
 
 
-    // Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
+    /**
+     * Gets the package name.  The usage assumes that Critter and its subclasses are all in the same package.
+     */
     static {
         myPackage = Critter.class.getPackage().toString().split(" ")[1];
     }
@@ -101,7 +92,7 @@ public class Main {
                 switch (inputSplit[0]) {
                     case "quit":
                         if (checkInputLength(input,1)) {
-                            System.exit(0);
+                            return;
                         }
                         break;
                     case "show":
@@ -175,7 +166,7 @@ public class Main {
         if (command.split("\\s").length == terms || command.split("\\s").length == optionalTerms) {
             return true;
         }
-        printInvalidOutput(command);
+        System.out.println("error processing: " + command);
         return false;
     }
 
